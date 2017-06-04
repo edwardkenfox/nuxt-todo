@@ -9,19 +9,31 @@
     </ul>
     <input type="text" v-model="newTodoTitle">
     <button @click="addTodo">Add ToDo</button>
+    <button @click="showJoke">Show me a Chuck Norris joke</button>
+    <p v-if="joke" v-html="joke"></p>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
       todos: [],
-      newTodoTitle: ''
+      newTodoTitle: '',
+      joke: ''
     }
   },
 
   methods: {
+    showJoke () {
+      axios.get('http://api.icndb.com/jokes/random')
+      .then(res => {
+        this.joke = res.data.value.joke
+      })
+    },
+
     addTodo () {
       if (!this.newTodoTitle) return false
 
