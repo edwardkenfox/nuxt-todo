@@ -16,14 +16,18 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
-      todos: [],
       newTodoTitle: '',
       joke: ''
     }
+  },
+
+  computed: {
+    ...mapGetters(['todos'])
   },
 
   methods: {
@@ -37,10 +41,7 @@ export default {
     addTodo () {
       if (!this.newTodoTitle) return false
 
-      this.todos.push({
-        title: this.newTodoTitle,
-        done: false
-      })
+      this.$store.commit('addTodo', this.newTodoTitle)
 
       this.newTodoTitle = ''
     }
